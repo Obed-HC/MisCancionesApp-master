@@ -23,7 +23,7 @@ class Coleccion():
         if len(busqueda) == 0:
             album = session.query(Album).filter(Album.id == album_id).first()
             album.titulo = titulo
-            album.ano = anio
+            album.anio = anio
             album.descripcion = descripcion
             album.medio = medio
             session.commit()
@@ -43,3 +43,43 @@ class Coleccion():
             return True
         else:
             return False
+
+    def editar_cancion(self, cancion_id, titulo, minutos, segundos, compositor):
+        busqueda = session.query(Cancion).filter(Cancion.titulo == titulo, Cancion.id != cancion_id).all()
+        if len(busqueda) == 0:
+            cancion = session.query(Cancion).filter(Cancion.id == cancion_id).first()
+            cancion.titulo = titulo
+            cancion.minutos = minutos
+            cancion.segundos = segundos
+            cancion.compositor = compositor
+            session.commit()
+            return True
+        else:
+            return False
+
+    def dar_cancion_por_id(self, cancion_id):
+        return session.query(Cancion).get(cancion_id).__dict__
+
+    def agregar_interpetre(self, nombre, texto_curiosidades):
+        busqueda = session.query(Interprete).filter(Interprete.nombre == nombre).all()
+        if len(busqueda) == 0:
+            interprete = Interprete(nombre=nombre, texto_curiosidades=texto_curiosidades)
+            session.add(interprete)
+            session.commit()
+            return True
+        else:
+            return False
+
+    def editar_cancion(self, interprete_id, nombre, texto_curiosidades):
+        busqueda = session.query(Interprete).filter(Interprete.nombre == nombre, Interprete.id != interprete_id).all()
+        if len(busqueda) == 0:
+            interprete = session.query(Interprete).filter(Interprete.id == interprete_id).first()
+            interprete.nombre = nombre
+            interprete.texto_curiosidades = texto_curiosidades
+            session.commit()
+            return True
+        else:
+            return False
+
+    def dar_interprete_por_id(self, interprete_id):
+        return session.query(Interprete).get(interprete_id).__dict__
