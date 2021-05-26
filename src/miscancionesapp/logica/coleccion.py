@@ -70,7 +70,7 @@ class Coleccion():
         else:
             return False
 
-    def editar_cancion(self, interprete_id, nombre, texto_curiosidades):
+    def editar_interprete(self, interprete_id, nombre, texto_curiosidades):
         busqueda = session.query(Interprete).filter(Interprete.nombre == nombre, Interprete.id != interprete_id).all()
         if len(busqueda) == 0:
             interprete = session.query(Interprete).filter(Interprete.id == interprete_id).first()
